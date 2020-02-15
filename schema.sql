@@ -1,91 +1,79 @@
-DROP DATABASE IF EXISTS employees;
+DROP DATABASE IF EXISTS Employee_Tracker;
 
-CREATE DATABASE employees;
+CREATE DATABASE Employee_Tracker;
 
-USE employees;
+USE Employee_Tracker;
 
-CREATE TABLE department (
-  id INT AUTO_INCREMENT NOT NULL,
-  name VARCHAR(30) NOT NULL,
-  PRIMARY KEY(id)
+CREATE TABLE department(
+id integer auto_increment not null,
+name varchar(30) not null,
+primary key(id)
 );
 
-INSERT INTO department (name)
+CREATE TABLE role(
+id integer auto_increment not null,
+title varchar(30) not null,
+salary decimal not null,
+department_id Integer not null,
+constraint fk_department_id foreign key (department_id) references department(id),
+primary key(id)
+);
+
+
+CREATE TABLE employee(
+id integer auto_increment not null,
+first_name varchar(30) not null,
+last_name varchar(30) not null,
+role_id integer not null,
+constraint fk_role_id FOREIGN KEY (role_id) REFERENCES role(id),
+manager_id integer ,
+constraint fk_manager_id FOREIGN KEY (manager_id) REFERENCES employee(id),
+Primary key(id)
+);
+
+select * from employee;
+select * from role;
+select * from department;
+
+INSERT into department (name)
 VALUES ("Sales");
-
-INSERT INTO department (name)
+INSERT into department (name)
 VALUES ("Engineering");
-
-INSERT INTO department (name)
+INSERT into department (name)
 VALUES ("Finance");
-
-INSERT INTO department (name)
+INSERT into department (name)
 VALUES ("Legal");
+INSERT into department (name)
+VALUES ("Manager");
 
-CREATE TABLE role (
-  id INT AUTO_INCREMENT NOT NULL,
-  title VARCHAR(30) NOT NULL,
-  salary DECIMAL(10,2) NOT NULL,
-  department_id INT NOT NULL,
-  PRIMARY KEY(id)
-);
+select * from department;
 
-INSERT INTO role (title, salary, department_id)
-VALUES ("Sales Lead", 100000, 1);
+INSERT into role (title, salary, department_id)
+VALUES ("Sales Lead", 45000, 1);
+INSERT into role (title, salary, department_id)
+VALUES ("Salesperson", 35000, 1);
+INSERT into role (title, salary, department_id)
+VALUES ("Lead Engineer", 43000, 2);
+INSERT into role (title, salary, department_id)
+VALUES ("Accountant", 50000, 3);
+INSERT into role (title, salary, department_id)
+VALUES ("Legal", 50000, 4);
+INSERT into role (title, salary, department_id)
+VALUES ("Manager", 65000, 5);
 
-INSERT INTO role (title, salary, department_id)
-VALUES ("Salesperson", 80000, 1);
+select * from role;
 
-INSERT INTO role (title, salary, department_id)
-VALUES ("Lead Engineer", 150000, 2);
+INSERT into employee (first_name, last_name, role_id)
+values ("John", "Stamos", 3); 
+INSERT into employee (first_name, last_name, role_id)
+values ("Jim", "Baker", 4);
+INSERT into employee (first_name, last_name, role_id)
+values ("George", "Washington", 5);
+INSERT into employee (first_name, last_name, role_id)
+values ("Meghan", "Kelly", 6);
+INSERT into employee (first_name, last_name, role_id)
+values ("Tom", "Hanks", 7);
+INSERT into employee (first_name, last_name, role_id)
+values ("Dolly", "Parton", 8);
 
-INSERT INTO role (title, salary, department_id)
-VALUES ("Software Engineer", 120000, 2);
-
-INSERT INTO role (title, salary, department_id)
-VALUES ("Account Manager", 160000, 3);
-
-INSERT INTO role (title, salary, department_id)
-VALUES ("Accountant", 125000, 3);
-
-INSERT INTO role (title, salary, department_id)
-VALUES ("Legal Team Lead", 250000, 4);
-
-INSERT INTO role (title, salary, department_id)
-VALUES ("Lawyer", 190000, 4);
-
-CREATE TABLE employee (
-  id INT AUTO_INCREMENT NOT NULL,
-  first_name VARCHAR(30) NOT NULL,
-  last_name VARCHAR(30) NOT NULL,
-  role_id iNT NOT NULL,
-  manager_id VARCHAR(30),
-  PRIMARY KEY(id)
-);
-
-INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ("John", "Doe", 1, null);
-
-INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ("Mike", "Chan", 2, "John Doe");
-
-INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ("Ashley", "Rodriguez", 3, null);
-
-INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ("Kevin", "Tupik", 4, "Ashley Rodriguez");
-
-INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ("Kunal", "Singh", 5, null);
-
-INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ("Malia", "Brown", 6, "Kunal Singh");
-
-INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ("Sarah", "Lourd", 7, null);
-
-INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ("Tom", "Allen", 8, "Sarah Lourde");
-
-INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ("Hanna", "Lauth", 3, "Kevin Tupic");
+select * from employee;
